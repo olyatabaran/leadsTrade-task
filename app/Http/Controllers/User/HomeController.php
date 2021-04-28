@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\BalanceCalculatorService;
 use App\Mail\MailInvitation;
 use App\Models\User;
 use App\Models\Invitation;
@@ -12,6 +13,11 @@ use Symfony\Component\Console\Input\Input;
 
 class HomeController extends Controller
 {
+    public function index()
+    {
+        return view('welcome');
+    }
+
     public function balanceRefill()
     {
         $currentUser = auth('web')->user();
@@ -21,23 +27,11 @@ class HomeController extends Controller
         ]);
     }
 
-    public function refillAction(Request $request)
+    public function refillAction(Request $request, BalanceCalculatorService $service)
     {
-        $currentUser = auth('web')->user();
-        $invitation = Invitation::with('user')->where('invitation_to', md5($currentUser->email))->first();
+        $user = auth('web')->user();
+        $service->calculateBalance($request, $user);
 
-        if (!empty($invitation)) {
-            $user = User::find($invitation->invited_by);
-            if (!empty($invitation->invitation_to && $invitation->invitation_to == md5($currentUser->email))) {
-                $currentUser->balance += $request->balance;
-                $currentUser->save();
-                $user->balance += $request->balance / 10;
-                $user->save();
-            }
-        } else {
-            $currentUser->balance += $request->balance;
-            $currentUser->save();
-        }
         return redirect(route('user.balanceRefill'));
     }
 
