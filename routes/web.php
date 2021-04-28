@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('register/{email?}', [RegisterController::class, 'register'])->name('register');
-Route::post('register/', [RegisterController::class, 'register'])->name('register');
+Route::get('/register/{email?}', [RegisterController::class, 'register'])->name('register');
+Route::post('/register/', [RegisterController::class, 'register'])->name('register');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
