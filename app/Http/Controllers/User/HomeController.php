@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function refillAction(Request $request)
     {
         $currentUser = auth('web')->user();
-        $invitation = Invitation::with('user')->where('invitation_to',md5($currentUser->email))->first();
+        $invitation = Invitation::with('user')->where('invitation_to', md5($currentUser->email))->first();
 
         if (!empty($invitation)) {
             $user = User::find($invitation->invited_by);
