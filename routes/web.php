@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/register/{email?}', [RegisterController::class, 'register'])->name('register');
+Route::get('/register/{token?}', [RegisterController::class, 'register'])->name('register');
 Route::post('/register/', [RegisterController::class, 'register'])->name('register');
 
 Route::get('/login', [LoginController::class, 'login'])->name('login');
@@ -30,7 +30,7 @@ Route::middleware('auth:web')->group(function () {
     Route::prefix('/user')->name('user.')->group(function () {
         Route::get('/home', [HomeController::class, 'balanceRefill'])->name('balanceRefill');
         Route::post('/home', [HomeController::class, 'refillAction'])->name('refillAction');
-        Route::get('/invite', [HomeController::class, 'invite'])->name('invite');
+        Route::get('/invite', [HomeController::class, 'inviteFormAction'])->name('invite');
         Route::post('/invite', [HomeController::class, 'inviteAction'])->name('inviteAction');
     });
 });

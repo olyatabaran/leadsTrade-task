@@ -35,7 +35,7 @@ class HomeController extends Controller
         return redirect(route('user.balanceRefill'));
     }
 
-    public function invite()
+    public function inviteFormAction()
     {
         return view('user.invite');
     }
